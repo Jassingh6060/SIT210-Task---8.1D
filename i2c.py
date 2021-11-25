@@ -2,20 +2,19 @@ import smbus
 import time
 
 device_address =  0x23
-
 one_time_high_res_mode = 0x20
 
 bus = smbus.SMBus(1)
 
-def read_light_value():
-    value = bus.read_i2c_block_data(device_address, one_time_high_res_mode)
-    return Convert(value)
+def lightvalue():
+    light = bus.read_i2c_block_data(device_address, one_time_high_res_mode)
+    return Convert_val(light)
 
-def Convert(data):
-    return ((data[1] + (256*data[0]))/1.2)
+def Convert_val(data):
+    return ((data[1] + (256 * data[0]))/ 1.2)
 
 while True:
-     Intensity = read_light_value()
+     Intensity = lightvalue()
      time.sleep(1)
      if(Intensity > 2500):
          print("Too Bright")
